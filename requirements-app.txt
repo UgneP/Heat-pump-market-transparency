@@ -1,0 +1,5 @@
+# Optional Streamlit demo app dependencies.
+# Keep separate from the notebook environment if Streamlit causes conflicts.
+
+streamlit==1.45.1
+-r requirements.txt

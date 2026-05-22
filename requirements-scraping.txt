@@ -1,0 +1,9 @@
+# Optional dependencies for the old scraping and matching workflow.
+
+beautifulsoup4==4.13.1
+html5lib==1.1
+requests==2.32.3
+selenium==4.28.1
+python-Levenshtein==0.26.1
+rapidfuzz==3.12.1
+-r requirements.txt
