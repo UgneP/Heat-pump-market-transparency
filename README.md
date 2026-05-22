@@ -4,11 +4,12 @@
     <img src="https://img.shields.io/badge/CCDS-Project%20template-328F97?logo=cookiecutter" />
 </a>
 
-This master’s thesis investigates the cost-benefit relationship of heat pumps in Europe, focusing on whether investing in higher energy efficiency is financially worthwhile for residential consumers. As heat pumps become a key technology in Europe’s transition away from fossil fuels, the study examines how increased efficiency—measured by performance metrics like SCOP—affects both initial purchase prices and long-term operational savings. Using data from the Keymark database and scraped online prices, the project applies statistical analysis and visualization techniques to identify trends in pricing and efficiency. The results aim to guide consumers, manufacturers, and policymakers on the economic trade-offs of heat pump efficiency, with the goal of supporting more informed purchasing decisions and effective policy design.
+Heat Pump Pricescraper is a data analysis project focused on collecting, processing, and analyzing heat pump market pricing and product characteristics. The repository provides tools for web scraping, manufacturer matching, data modeling, and includes a demo app for interactive price transparency using Streamlit.
+
 
 ## Streamlit price transparency demo
 
-The repository includes a lightweight Streamlit app in `app.py`. It lets users enter a heat pump offer price and key technical characteristics used by the price model. The app predicts an expected product/configuration price with the `RandomForest_200t` model setup from the analysis notebook and applies a broad +/-30% reasonableness band.
+The repository includes a lightweight Streamlit app in `app.py`. It lets users enter a heat pump offer price and key technical characteristics used by the price model. The app predicts an expected product/configuration price with the `RandomForest_200t` model setup from the analysis notebook and applies a broad +/-20% reasonableness band.
 
 Run locally:
 

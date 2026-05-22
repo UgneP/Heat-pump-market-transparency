@@ -38,7 +38,7 @@ MODEL_NUMERIC_FEATURES = [
 ]
 MODEL_CATEGORICAL_FEATURES = ["Config", "Storage", "Refrigerant"]
 MODEL_FEATURES = MODEL_NUMERIC_FEATURES + MODEL_CATEGORICAL_FEATURES
-EXPECTED_PRICE_BAND = 0.30
+EXPECTED_PRICE_BAND = 0.20
 
 
 FEATURE_LABELS = {
@@ -721,7 +721,7 @@ def render_methodology(df: pd.DataFrame) -> None:
         On the current processed dataset, the holdout error is about **{format_eur(model_info["mae"])}** on
         average, or **{model_info["mape"]:.1f}%** of the observed price on average. An individual prediction
         can still be off by roughly this amount, and sometimes more. For this reason the app uses a deliberately
-        broad **+/-30% expected range** rather than a narrow point estimate.
+        broad **+/-20% expected range** rather than a narrow point estimate.
 
         The paper reports that rated power, storage size, refrigerant type, noise, standby power, reference COP,
         and tank configuration help explain much of the observed price variation. SCOP and maximum water
@@ -740,9 +740,9 @@ def render_methodology(df: pd.DataFrame) -> None:
         """
         **How the label is assigned**
 
-        - `Cheaper than expected`: offer price is more than 30% below the model prediction
-        - `In expected range`: offer price is within +/-30% of the model prediction
-        - `Higher than expected`: offer price is more than 30% above the model prediction
+        - `Cheaper than expected`: offer price is more than 20% below the model prediction
+        - `In expected range`: offer price is within +/-20% of the model prediction
+        - `Higher than expected`: offer price is more than 20% above the model prediction
 
         A cheaper-than-expected result is not automatically a better offer. It may indicate a good deal, but it
         can also signal missing components, a narrower scope, less support, unclear warranty terms, or a less
