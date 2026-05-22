@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Heat Pump Price Transparency</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="page">
+      <header class="topbar">
+        <div>
+          <h1>Heat Pump Price Transparency</h1>
+          <p>A research demo for checking air-to-water heat pump offer prices against matched European online market data.</p>
+        </div>
+      </header>
+
+      <nav class="tabs" aria-label="Sections">
+        <button class="tab is-active" data-tab="price">Price check</button>
+        <button class="tab" data-tab="dashboard">Dashboard</button>
+        <button class="tab" data-tab="methodology">Methodology</button>
+      </nav>
+
+      <section id="price" class="panel is-active">
+        <div class="split">
+          <form id="price-form" class="form-panel">
+            <h2>Air-to-Water Heat Pump Price Check</h2>
+            <p class="muted">Only the offer price is required. Leave technical fields blank if they are unknown.</p>
+
+            <label>
+              Offer price
+              <input id="offer-price" type="number" min="100" max="100000" step="250" value="12000">
+            </label>
+
+            <div class="grid two">
+              <label>
+                Rated power (kW)
+                <input id="power" type="number" step="0.1">
+              </label>
+              <label>
+                Storage size (L)
+                <input id="storage" type="number" step="10">
+              </label>
+              <label>
+                Configuration
+                <select id="config"></select>
+              </label>
+              <label>
+                Tank configuration
+                <select id="tank"></select>
+              </label>
+              <label>
+                Refrigerant type
+                <select id="refrigerant"></select>
+              </label>
+              <label>
+                Noise (dBA)
+                <input id="noise" type="number" step="0.5">
+              </label>
+              <label>
+                Standby power (W)
+                <input id="standby" type="number" step="0.5">
+              </label>
+            </div>
+
+            <button type="submit" class="primary">Check price</button>
+          </form>
+
+          <aside id="result" class="score-panel" aria-live="polite"></aside>
+        </div>
+      </section>
+
+      <section id="dashboard" class="panel">
+        <h2>Market Dashboard</h2>
+        <p class="muted">Explore simple benchmark tables and matched offers from the research dataset.</p>
+
+        <div class="filters">
+          <input id="table-search" type="search" placeholder="Search manufacturer, model, title, refrigerant, or website">
+          <select id="manufacturer-filter"></select>
+          <select id="refrigerant-filter"></select>
+        </div>
+
+        <div id="dashboard-metrics" class="metric-grid"></div>
+
+        <div class="table-wrap">
+          <table id="offers-table">
+            <thead>
+              <tr>
+                <th data-sort="Manufacturer display">Manufacturer</th>
+                <th data-sort="Titel">Product title</th>
+                <th data-sort="Price">Price</th>
+                <th data-sort="Rated Power low T [kW]">Power kW</th>
+                <th data-sort="SCOP">SCOP</th>
+                <th data-sort="Configuration">Configuration</th>
+                <th data-sort="Refrigerant">Refrigerant</th>
+                <th data-sort="Website">Website</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="methodology" class="panel">
+        <h2>Methodology</h2>
+        <p>This demo is based on the market-transparency study <em>Increasing market transparency of residential air-to-water heat pumps in Europe by clustering the appliances</em> by Ugne Potthoff, Felix Morlock, and Felix Wortmann, prepared for HPC2026.</p>
+
+        <h3>Data basis</h3>
+        <p>The underlying research links certified technical data from Heat Pump Library / Keymark records with web-scraped European online retail prices. The processed app dataset contains matched residential air-to-water heat pump observations from 13 manufacturers.</p>
+
+        <h3>Static GitHub Pages model</h3>
+        <div id="model-metrics" class="metric-grid"></div>
+        <p>This GitHub Pages version cannot run Python in the browser. Instead, it uses a precomputed grid of predictions generated from the same RandomForest_200t model used in the Streamlit app. Missing inputs broaden the comparison across the precomputed prediction grid.</p>
+        <p><strong>Important: predictive fit is not causality.</strong> The model estimates associations learned from observed online product prices. It does not prove that changing one feature causes the price to change by a specific amount.</p>
+
+        <h3>How the label is assigned</h3>
+        <ul>
+          <li><strong>Cheaper than expected:</strong> offer price is more than 30% below the expected range.</li>
+          <li><strong>In expected range:</strong> offer price is within the expected range.</li>
+          <li><strong>Higher than expected:</strong> offer price is more than 30% above the expected range.</li>
+        </ul>
+
+        <p class="note">This is a research demo. It benchmarks product/configuration offer prices only and should not be used as a final purchasing recommendation.</p>
+      </section>
+    </main>
+    <script src="app.js"></script>
+  </body>
+</html>
