@@ -110,7 +110,6 @@ h3 {
   border: 1px solid rgba(163, 59, 53, 0.38);
   border-radius: 8px;
   color: #7f2d29;
-  font-weight: 650;
   margin: 18px 0 4px;
   padding: 12px 14px;
 }
@@ -231,7 +230,7 @@ input[type="range"]::-moz-range-track {
 
 input[type="range"]::-webkit-slider-thumb {
   appearance: none;
-  background: var(--green);
+  background: #5f6661;
   border: 2px solid #fff;
   border-radius: 999px;
   box-shadow: 0 1px 4px rgba(31, 39, 35, 0.25);
@@ -243,7 +242,7 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 input[type="range"]::-moz-range-thumb {
-  background: var(--green);
+  background: #5f6661;
   border: 2px solid #fff;
   border-radius: 999px;
   box-shadow: 0 1px 4px rgba(31, 39, 35, 0.25);
@@ -296,7 +295,7 @@ input[type="range"]::-moz-range-thumb {
 }
 
 .range-stack::before {
-  background: #6857e8;
+  background: #6f7772;
   border-radius: 999px;
   content: "";
   height: 7px;
