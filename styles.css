@@ -132,6 +132,74 @@ select {
   padding: 8px 10px;
 }
 
+.multi-select {
+  min-width: 0;
+  position: relative;
+}
+
+.multi-select summary {
+  align-items: center;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--ink);
+  cursor: pointer;
+  display: flex;
+  font-size: 0.95rem;
+  justify-content: space-between;
+  list-style: none;
+  min-height: 40px;
+  padding: 8px 10px;
+}
+
+.multi-select summary::-webkit-details-marker {
+  display: none;
+}
+
+.multi-select summary::after {
+  color: var(--muted);
+  content: "⌄";
+  font-size: 0.9rem;
+}
+
+.multi-select[open] summary {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.multi-select__menu {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 0 0 6px 6px;
+  box-shadow: 0 8px 18px rgba(31, 39, 35, 0.12);
+  display: grid;
+  gap: 2px;
+  left: 0;
+  max-height: 260px;
+  overflow: auto;
+  padding: 8px;
+  position: absolute;
+  right: 0;
+  top: 100%;
+  z-index: 4;
+}
+
+.multi-select__menu label {
+  align-items: center;
+  color: var(--ink);
+  display: flex;
+  flex-direction: row;
+  font-size: 0.9rem;
+  gap: 8px;
+  margin: 0;
+  padding: 6px;
+}
+
+.multi-select__menu input {
+  min-height: auto;
+  width: auto;
+}
+
 input[type="range"] {
   appearance: none;
   background: transparent;
@@ -199,10 +267,35 @@ input[type="range"]::-moz-range-thumb {
 }
 
 .range-stack {
-  background: linear-gradient(90deg, var(--line), #c9d8cd, var(--line));
+  --range-end: 100%;
+  --range-start: 0%;
   border-radius: 999px;
   height: 28px;
   position: relative;
+}
+
+.range-stack::after {
+  background: var(--line);
+  border-radius: 999px;
+  content: "";
+  height: 6px;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 11px;
+  z-index: 0;
+}
+
+.range-stack::before {
+  background: #6857e8;
+  border-radius: 999px;
+  content: "";
+  height: 6px;
+  left: var(--range-start);
+  position: absolute;
+  right: calc(100% - var(--range-end));
+  top: 11px;
+  z-index: 1;
 }
 
 .range-stack input[type="range"] {
@@ -214,6 +307,7 @@ input[type="range"]::-moz-range-thumb {
   right: 0;
   top: 0;
   width: 100%;
+  z-index: 2;
 }
 
 .primary {
