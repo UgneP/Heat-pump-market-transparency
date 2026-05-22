@@ -77,7 +77,24 @@
         <div class="filters">
           <input id="table-search" type="search" placeholder="Search manufacturer, model, title, refrigerant, or website">
           <select id="manufacturer-filter"></select>
+          <select id="configuration-filter"></select>
           <select id="refrigerant-filter"></select>
+          <label class="compact-filter">
+            Price min
+            <input id="price-min-filter" type="number" step="250">
+          </label>
+          <label class="compact-filter">
+            Price max
+            <input id="price-max-filter" type="number" step="250">
+          </label>
+          <label class="compact-filter">
+            Power min
+            <input id="power-min-filter" type="number" step="0.5">
+          </label>
+          <label class="compact-filter">
+            Power max
+            <input id="power-max-filter" type="number" step="0.5">
+          </label>
         </div>
 
         <div id="dashboard-metrics" class="metric-grid"></div>
@@ -115,9 +132,9 @@
 
         <h3>How the label is assigned</h3>
         <ul>
-          <li><strong>Cheaper than expected:</strong> offer price is more than 30% below the expected range.</li>
+          <li><strong>Cheaper than expected:</strong> offer price is more than 20% below the expected range.</li>
           <li><strong>In expected range:</strong> offer price is within the expected range.</li>
-          <li><strong>Higher than expected:</strong> offer price is more than 30% above the expected range.</li>
+          <li><strong>Higher than expected:</strong> offer price is more than 20% above the expected range.</li>
         </ul>
 
         <p class="note">This is a research demo. It benchmarks product/configuration offer prices only and should not be used as a final purchasing recommendation.</p>

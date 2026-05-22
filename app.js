@@ -45,6 +45,16 @@ function metricCard(label, value) {
   return `<div class="metric-card"><div class="metric-label">${label}</div><div class="metric-value">${value}</div></div>`;
 }
 
+function websiteLabel(value) {
+  if (!value) return "";
+  try {
+    const host = new URL(value).hostname.replace(/^www\./, "");
+    return host.split(".").slice(-2).join(".");
+  } catch {
+    return String(value).replace(/^https?:\/\//, "").replace(/^www\./, "").split("/")[0];
+  }
+}
+
 function activateTab(name) {
   document.querySelectorAll(".tab").forEach((button) => {
     button.classList.toggle("is-active", button.dataset.tab === name);
@@ -181,11 +191,21 @@ function uniqueRows(key) {
 function filteredRows() {
   const query = document.getElementById("table-search").value.toLowerCase();
   const manufacturer = document.getElementById("manufacturer-filter").value;
+  const configuration = document.getElementById("configuration-filter").value;
   const refrigerant = document.getElementById("refrigerant-filter").value;
+  const priceMin = numberValue("price-min-filter");
+  const priceMax = numberValue("price-max-filter");
+  const powerMin = numberValue("power-min-filter");
+  const powerMax = numberValue("power-max-filter");
 
   return state.rows.filter((row) => {
     if (manufacturer !== "All manufacturers" && row["Manufacturer display"] !== manufacturer) return false;
+    if (configuration !== "All configurations" && row.Configuration !== configuration) return false;
     if (refrigerant !== "All refrigerants" && row.Refrigerant !== refrigerant) return false;
+    if (priceMin !== null && row.Price < priceMin) return false;
+    if (priceMax !== null && row.Price > priceMax) return false;
+    if (powerMin !== null && row["Rated Power low T [kW]"] < powerMin) return false;
+    if (powerMax !== null && row["Rated Power low T [kW]"] > powerMax) return false;
     if (!query) return true;
     return [
       row["Manufacturer display"],
@@ -230,7 +250,7 @@ function renderDashboard() {
       <td>${typeof row.SCOP === "number" ? row.SCOP.toFixed(2) : ""}</td>
       <td>${row.Configuration || ""}</td>
       <td>${row.Refrigerant || ""}</td>
-      <td>${row.Website ? `<a href="${row.Website}" target="_blank" rel="noreferrer">source</a>` : ""}</td>
+      <td>${row.Website ? `<a href="${row.Website}" target="_blank" rel="noreferrer">${websiteLabel(row.Website)}</a>` : ""}</td>
     </tr>
   `).join("");
 }
@@ -240,11 +260,31 @@ function setupDashboard() {
   manufacturer.append(new Option("All manufacturers", "All manufacturers"));
   uniqueRows("Manufacturer display").forEach((value) => manufacturer.append(new Option(value, value)));
 
+  const configuration = document.getElementById("configuration-filter");
+  configuration.append(new Option("All configurations", "All configurations"));
+  uniqueRows("Configuration").forEach((value) => configuration.append(new Option(value, value)));
+
   const refrigerant = document.getElementById("refrigerant-filter");
   refrigerant.append(new Option("All refrigerants", "All refrigerants"));
   uniqueRows("Refrigerant").forEach((value) => refrigerant.append(new Option(value, value)));
 
-  ["table-search", "manufacturer-filter", "refrigerant-filter"].forEach((id) => {
+  const prices = state.rows.map((row) => row.Price).filter((value) => typeof value === "number");
+  const powers = state.rows.map((row) => row["Rated Power low T [kW]"]).filter((value) => typeof value === "number");
+  document.getElementById("price-min-filter").placeholder = Math.floor(Math.min(...prices));
+  document.getElementById("price-max-filter").placeholder = Math.ceil(Math.max(...prices));
+  document.getElementById("power-min-filter").placeholder = Math.floor(Math.min(...powers));
+  document.getElementById("power-max-filter").placeholder = Math.ceil(Math.max(...powers));
+
+  [
+    "table-search",
+    "manufacturer-filter",
+    "configuration-filter",
+    "refrigerant-filter",
+    "price-min-filter",
+    "price-max-filter",
+    "power-min-filter",
+    "power-max-filter",
+  ].forEach((id) => {
     document.getElementById(id).addEventListener("input", renderDashboard);
   });
 

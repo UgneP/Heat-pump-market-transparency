@@ -120,6 +120,10 @@ label {
   margin-bottom: 14px;
 }
 
+.compact-filter {
+  margin-bottom: 0;
+}
+
 input,
 select {
   width: 100%;
