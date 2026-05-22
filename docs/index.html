@@ -84,16 +84,20 @@
               <span>Price range</span>
               <strong id="price-range-label"></strong>
             </div>
-            <input id="price-min-filter" type="range" step="250">
-            <input id="price-max-filter" type="range" step="250">
+            <div class="range-stack">
+              <input id="price-min-filter" type="range" step="250" aria-label="Minimum price">
+              <input id="price-max-filter" type="range" step="250" aria-label="Maximum price">
+            </div>
           </div>
           <div class="range-filter">
             <div class="range-filter__label">
               <span>Power range</span>
               <strong id="power-range-label"></strong>
             </div>
-            <input id="power-min-filter" type="range" step="0.5">
-            <input id="power-max-filter" type="range" step="0.5">
+            <div class="range-stack">
+              <input id="power-min-filter" type="range" step="0.5" aria-label="Minimum power">
+              <input id="power-max-filter" type="range" step="0.5" aria-label="Maximum power">
+            </div>
           </div>
         </div>
 
