@@ -222,7 +222,7 @@ input[type="range"]::-moz-range-track {
 
 input[type="range"]::-webkit-slider-thumb {
   appearance: none;
-  background: var(--green);
+  background: rgba(176, 45, 45, 0.9);
   border: 2px solid #fff;
   border-radius: 999px;
   box-shadow: 0 1px 4px rgba(31, 39, 35, 0.25);
@@ -234,7 +234,7 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 input[type="range"]::-moz-range-thumb {
-  background: var(--green);
+  background: rgba(176, 45, 45, 0.9);
   border: 2px solid #fff;
   border-radius: 999px;
   box-shadow: 0 1px 4px rgba(31, 39, 35, 0.25);
@@ -270,7 +270,7 @@ input[type="range"]::-moz-range-thumb {
   --range-end: 100%;
   --range-start: 0%;
   border-radius: 999px;
-  height: 28px;
+  height: 24px;
   position: relative;
 }
 
@@ -278,29 +278,29 @@ input[type="range"]::-moz-range-thumb {
   background: var(--line);
   border-radius: 999px;
   content: "";
-  height: 6px;
+  height: 7px;
   left: 0;
   position: absolute;
   right: 0;
-  top: 11px;
+  top: 7px;
   z-index: 0;
 }
 
 .range-stack::before {
-  background: #6857e8;
+  background: rgba(176, 45, 45, 0.52);
   border-radius: 999px;
   content: "";
-  height: 6px;
+  height: 7px;
   left: var(--range-start);
   position: absolute;
   right: calc(100% - var(--range-end));
-  top: 11px;
+  top: 7px;
   z-index: 1;
 }
 
 .range-stack input[type="range"] {
   border: 0;
-  height: 28px;
+  height: 24px;
   left: 0;
   margin: 0;
   position: absolute;
