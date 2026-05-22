@@ -113,6 +113,24 @@ function websiteLabel(value) {
   }
 }
 
+function websiteHref(value) {
+  if (!value) return "";
+  if (/^https?:\/\//i.test(value)) return value;
+  const key = String(value).trim().toLowerCase();
+  const domains = {
+    climamarket: "https://www.climamarket.eu/",
+    heima24: "https://www.heima24.de/",
+    heizungsdiscount: "https://www.heizungsdiscount24.de/",
+    idealo: "https://www.idealo.de/",
+    manomano: "https://www.manomano.de/",
+    selfio: "https://www.selfio.de/",
+    vanwalraven: "https://www.vanwalraven.com/",
+  };
+  if (domains[key]) return domains[key];
+  if (key === "manually") return "";
+  return `https://www.google.com/search?q=${encodeURIComponent(value)}`;
+}
+
 function activateTab(name) {
   document.querySelectorAll(".tab").forEach((button) => {
     button.classList.toggle("is-active", button.dataset.tab === name);
@@ -337,7 +355,7 @@ function renderDashboard() {
       <td>${typeof row.SCOP === "number" ? row.SCOP.toFixed(2) : ""}</td>
       <td>${row.Configuration || ""}</td>
       <td>${row.Refrigerant || ""}</td>
-      <td>${row.Website ? `<a href="${row.Website}" target="_blank" rel="noreferrer">${websiteLabel(row.Website)}</a>` : ""}</td>
+      <td>${websiteHref(row.Website) ? `<a href="${websiteHref(row.Website)}" target="_blank" rel="noreferrer">${websiteLabel(row.Website)}</a>` : websiteLabel(row.Website)}</td>
     </tr>
   `).join("");
 }
