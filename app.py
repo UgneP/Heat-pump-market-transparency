@@ -749,6 +749,31 @@ def render_methodology(df: pd.DataFrame) -> None:
         reliable supplier. A higher-than-expected result can likewise be justified if it includes additional
         services or scope not represented in the dataset.
 
+        **Limitations and interpretation**
+
+        The analysis should be interpreted as a cross-sectional snapshot of observable online market information,
+        not as a continuous price monitoring system. The underlying data capture reflects prices found at the
+        time of scraping and does not measure how prices evolve over time, how often offers change, or whether
+        listed products were available under identical delivery and service conditions.
+
+        Heat pump markets are not fully transparent to end users. Many relevant transactions take place in
+        business-to-business channels between manufacturers, wholesalers, installers, and retailers. The prices
+        used here are therefore internet-platform and online-retail observations rather than a complete
+        representation of the full market. They should be read as observable reference points, not as definitive
+        transaction prices for all buyers.
+
+        The model only uses product and configuration characteristics available in the matched technical and
+        price dataset. Less tangible but commercially important factors are not represented, including warranty
+        conditions, installer relationship, after-sales service, brand reputation, perceived reliability,
+        supplier trust, delivery security, local availability, financing conditions, and the scope of included
+        accessories or services.
+
+        The purpose of this demo is not to harm, rank, or judge individual manufacturers, brands, retailers, or
+        installers. Its purpose is to illustrate the current state of market transparency and to make visible how
+        difficult it can be for individual users to identify comparable air-to-water heat pump prices online.
+        The results should therefore be understood as a research-based benchmarking signal and as a demonstration
+        of market opacity, not as a purchasing recommendation or a causal assessment of brand value.
+
         **Reference**
 
         Potthoff, U., Morlock, F., & Wortmann, F. *Increasing market transparency of residential air-to-water
