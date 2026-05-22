@@ -6,6 +6,29 @@
 
 This master’s thesis investigates the cost-benefit relationship of heat pumps in Europe, focusing on whether investing in higher energy efficiency is financially worthwhile for residential consumers. As heat pumps become a key technology in Europe’s transition away from fossil fuels, the study examines how increased efficiency—measured by performance metrics like SCOP—affects both initial purchase prices and long-term operational savings. Using data from the Keymark database and scraped online prices, the project applies statistical analysis and visualization techniques to identify trends in pricing and efficiency. The results aim to guide consumers, manufacturers, and policymakers on the economic trade-offs of heat pump efficiency, with the goal of supporting more informed purchasing decisions and effective policy design.
 
+## Streamlit price transparency demo
+
+The repository includes a lightweight Streamlit app in `app.py`. It lets users enter a heat pump offer price and key technical characteristics used by the price model. The app predicts an expected product/configuration price with the `RandomForest_200t` model setup from the analysis notebook and applies a broad +/-30% reasonableness band.
+
+Run locally:
+
+```powershell
+.\.venv\python.exe -m streamlit run app.py
+```
+
+For free public hosting, there are two options:
+
+- Streamlit Community Cloud with `streamlit_app/streamlit_app.py` as the main file. This runs the live Python/Streamlit version.
+- GitHub Pages from the `docs/` folder. This is a static version that uses a precomputed RandomForest prediction grid and a client-side interactive table.
+
+To refresh the GitHub Pages data bundle after changing the model or dataset:
+
+```powershell
+.\.venv\python.exe scripts\build_github_pages_data.py
+```
+
+See `DEPLOYMENT.md` for hosting notes.
+
 ## Project Organization
 
 ```

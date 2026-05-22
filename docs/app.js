@@ -1,0 +1,295 @@
+const state = {
+  data: null,
+  rows: [],
+  sortKey: "Price",
+  sortDirection: "asc",
+};
+
+const eur = new Intl.NumberFormat("en-IE", {
+  style: "currency",
+  currency: "EUR",
+  maximumFractionDigits: 0,
+});
+
+function formatEur(value) {
+  return eur.format(value).replace(/,/g, "'");
+}
+
+function numberValue(id) {
+  const value = document.getElementById(id).value;
+  return value === "" ? null : Number(value);
+}
+
+function selectValue(id) {
+  const value = document.getElementById(id).value;
+  return value === "Not specified" ? null : value;
+}
+
+function setOptions(id, values, includeAny = true) {
+  const select = document.getElementById(id);
+  select.innerHTML = "";
+  if (includeAny) {
+    select.append(new Option("Not specified", "Not specified"));
+  }
+  values.forEach((value) => select.append(new Option(value, value)));
+}
+
+function setInputLimits(id, limits) {
+  const input = document.getElementById(id);
+  input.min = limits[0];
+  input.max = limits[1];
+  input.placeholder = `${limits[0]}-${limits[1]}`;
+}
+
+function metricCard(label, value) {
+  return `<div class="metric-card"><div class="metric-label">${label}</div><div class="metric-value">${value}</div></div>`;
+}
+
+function activateTab(name) {
+  document.querySelectorAll(".tab").forEach((button) => {
+    button.classList.toggle("is-active", button.dataset.tab === name);
+  });
+  document.querySelectorAll(".panel").forEach((panel) => {
+    panel.classList.toggle("is-active", panel.id === name);
+  });
+}
+
+function predictionMatches(row, inputs) {
+  const [power, storage, noise, standby, config, tank, refrigerant] = row;
+  const tolerances = { power: 0.26, storage: 16, noise: 1.1, standby: 2.6 };
+  if (inputs.config && config !== inputs.config) return false;
+  if (inputs.tank && tank !== inputs.tank) return false;
+  if (inputs.refrigerant && refrigerant !== inputs.refrigerant) return false;
+  if (inputs.power !== null && Math.abs(power - inputs.power) > tolerances.power) return false;
+  if (inputs.storage !== null && Math.abs(storage - inputs.storage) > tolerances.storage) return false;
+  if (inputs.noise !== null && Math.abs(noise - inputs.noise) > tolerances.noise) return false;
+  if (inputs.standby !== null && Math.abs(standby - inputs.standby) > tolerances.standby) return false;
+  return true;
+}
+
+function closestPredictions(inputs) {
+  const numeric = [
+    ["power", 0],
+    ["storage", 1],
+    ["noise", 2],
+    ["standby", 3],
+  ].filter(([key]) => inputs[key] !== null);
+
+  return state.data.predictionRows
+    .filter((row) => {
+      if (inputs.config && row[4] !== inputs.config) return false;
+      if (inputs.tank && row[5] !== inputs.tank) return false;
+      if (inputs.refrigerant && row[6] !== inputs.refrigerant) return false;
+      return true;
+    })
+    .map((row) => {
+      const distance = numeric.reduce((total, [key, index]) => {
+        const [min, max] = state.data.limits[key];
+        return total + Math.abs(row[index] - inputs[key]) / Math.max(max - min, 1);
+      }, 0);
+      return { row, distance };
+    })
+    .sort((a, b) => a.distance - b.distance)
+    .slice(0, 500)
+    .map((item) => item.row);
+}
+
+function checkPrice(event) {
+  if (event) event.preventDefault();
+
+  const price = numberValue("offer-price") || 0;
+  const inputs = {
+    power: numberValue("power"),
+    storage: numberValue("storage"),
+    config: selectValue("config"),
+    tank: selectValue("tank"),
+    refrigerant: selectValue("refrigerant"),
+    noise: numberValue("noise"),
+    standby: numberValue("standby"),
+  };
+
+  let matches = state.data.predictionRows.filter((row) => predictionMatches(row, inputs));
+  if (!matches.length) {
+    matches = closestPredictions(inputs);
+  }
+
+  let rawLow = Infinity;
+  let rawHigh = -Infinity;
+  matches.forEach((row) => {
+    const prediction = row[7];
+    if (prediction < rawLow) rawLow = prediction;
+    if (prediction > rawHigh) rawHigh = prediction;
+  });
+  const low = rawLow * (1 - state.data.expectedPriceBand);
+  const high = rawHigh * (1 + state.data.expectedPriceBand);
+
+  let label = "In expected range";
+  let color = "var(--green)";
+  let message = "This offer is within the model-based expected range for the entered characteristics.";
+
+  if (price < low) {
+    label = "Cheaper than expected - check details";
+    color = "var(--gray)";
+    message = "Congratulations on a cheaper price, but check whether everything is included and whether the manufacturer or supplier is reliable.";
+  } else if (price > high) {
+    label = "Higher than expected";
+    color = "var(--red)";
+    message = "This offer is above the expected range; check whether extra services, warranty, installation scope, or availability explain the premium.";
+  }
+
+  const missing = Object.entries(inputs)
+    .filter(([, value]) => value === null)
+    .map(([key]) => ({
+      power: "Rated power",
+      storage: "Storage size",
+      config: "Configuration",
+      tank: "Tank configuration",
+      refrigerant: "Refrigerant type",
+      noise: "Noise",
+      standby: "Standby power",
+    })[key]);
+
+  const missingNote = missing.length
+    ? ` Range is wider because these inputs were not specified: ${missing.join(", ")}.`
+    : "";
+
+  document.getElementById("result").innerHTML = `
+    <span class="label-pill" style="background:${color}">${label}</span>
+    <div class="metric-label">Expected price range</div>
+    <div class="range-value">${formatEur(low)} - ${formatEur(high)}</div>
+    <p class="small-note">Your offer: ${formatEur(price)}</p>
+    <p class="small-note">${message}${missingNote}</p>
+  `;
+}
+
+function safeCheckPrice(event) {
+  try {
+    checkPrice(event);
+  } catch (error) {
+    console.error(error);
+    document.getElementById("result").innerHTML = `
+      <span class="label-pill" style="background:var(--red)">Price check unavailable</span>
+      <p class="small-note">${error.message}</p>
+    `;
+  }
+}
+
+function uniqueRows(key) {
+  return [...new Set(state.rows.map((row) => row[key]).filter(Boolean))].sort();
+}
+
+function filteredRows() {
+  const query = document.getElementById("table-search").value.toLowerCase();
+  const manufacturer = document.getElementById("manufacturer-filter").value;
+  const refrigerant = document.getElementById("refrigerant-filter").value;
+
+  return state.rows.filter((row) => {
+    if (manufacturer !== "All manufacturers" && row["Manufacturer display"] !== manufacturer) return false;
+    if (refrigerant !== "All refrigerants" && row.Refrigerant !== refrigerant) return false;
+    if (!query) return true;
+    return [
+      row["Manufacturer display"],
+      row.Titel,
+      row.Configuration,
+      row.Refrigerant,
+      row.Website,
+    ].join(" ").toLowerCase().includes(query);
+  });
+}
+
+function renderDashboard() {
+  const rows = filteredRows().sort((a, b) => {
+    const av = a[state.sortKey];
+    const bv = b[state.sortKey];
+    const direction = state.sortDirection === "asc" ? 1 : -1;
+    if (typeof av === "number" && typeof bv === "number") return (av - bv) * direction;
+    return String(av).localeCompare(String(bv)) * direction;
+  });
+
+  const prices = rows.map((row) => row.Price).filter((value) => typeof value === "number");
+  const scops = rows.map((row) => row.SCOP).filter((value) => typeof value === "number");
+  const median = (values) => {
+    if (!values.length) return 0;
+    const sorted = [...values].sort((a, b) => a - b);
+    return sorted[Math.floor(sorted.length / 2)];
+  };
+
+  document.getElementById("dashboard-metrics").innerHTML = [
+    metricCard("Offers", rows.length.toLocaleString("en-US")),
+    metricCard("Manufacturers", new Set(rows.map((row) => row["Manufacturer display"])).size),
+    metricCard("Median price", formatEur(median(prices))),
+    metricCard("Median SCOP", median(scops).toFixed(2)),
+  ].join("");
+
+  document.querySelector("#offers-table tbody").innerHTML = rows.slice(0, 300).map((row) => `
+    <tr>
+      <td>${row["Manufacturer display"] || ""}</td>
+      <td>${row.Titel || ""}</td>
+      <td>${formatEur(row.Price || 0)}</td>
+      <td>${row["Rated Power low T [kW]"] ?? ""}</td>
+      <td>${typeof row.SCOP === "number" ? row.SCOP.toFixed(2) : ""}</td>
+      <td>${row.Configuration || ""}</td>
+      <td>${row.Refrigerant || ""}</td>
+      <td>${row.Website ? `<a href="${row.Website}" target="_blank" rel="noreferrer">source</a>` : ""}</td>
+    </tr>
+  `).join("");
+}
+
+function setupDashboard() {
+  const manufacturer = document.getElementById("manufacturer-filter");
+  manufacturer.append(new Option("All manufacturers", "All manufacturers"));
+  uniqueRows("Manufacturer display").forEach((value) => manufacturer.append(new Option(value, value)));
+
+  const refrigerant = document.getElementById("refrigerant-filter");
+  refrigerant.append(new Option("All refrigerants", "All refrigerants"));
+  uniqueRows("Refrigerant").forEach((value) => refrigerant.append(new Option(value, value)));
+
+  ["table-search", "manufacturer-filter", "refrigerant-filter"].forEach((id) => {
+    document.getElementById(id).addEventListener("input", renderDashboard);
+  });
+
+  document.querySelectorAll("th[data-sort]").forEach((heading) => {
+    heading.addEventListener("click", () => {
+      const key = heading.dataset.sort;
+      if (state.sortKey === key) {
+        state.sortDirection = state.sortDirection === "asc" ? "desc" : "asc";
+      } else {
+        state.sortKey = key;
+        state.sortDirection = "asc";
+      }
+      renderDashboard();
+    });
+  });
+
+  renderDashboard();
+}
+
+async function init() {
+  const response = await fetch("data/app-data.json");
+  state.data = await response.json();
+  state.rows = state.data.dashboardRows;
+
+  setOptions("config", state.data.options.config);
+  setOptions("tank", state.data.options.tank);
+  setOptions("refrigerant", state.data.options.refrigerant);
+  setInputLimits("power", state.data.limits.power);
+  setInputLimits("storage", state.data.limits.storage);
+  setInputLimits("noise", state.data.limits.noise);
+  setInputLimits("standby", state.data.limits.standby);
+
+  document.getElementById("model-metrics").innerHTML = [
+    metricCard("Holdout R2", state.data.modelMetrics.r2.toFixed(2)),
+    metricCard("Mean absolute error", formatEur(state.data.modelMetrics.mae)),
+    metricCard("Mean percentage error", `${state.data.modelMetrics.mape.toFixed(1)}%`),
+  ].join("");
+
+  document.querySelectorAll(".tab").forEach((button) => {
+    button.addEventListener("click", () => activateTab(button.dataset.tab));
+  });
+
+  document.getElementById("price-form").addEventListener("submit", safeCheckPrice);
+  setupDashboard();
+  safeCheckPrice();
+}
+
+init();

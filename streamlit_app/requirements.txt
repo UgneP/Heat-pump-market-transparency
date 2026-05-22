@@ -1,0 +1,6 @@
+# Minimal dependencies for Streamlit Community Cloud.
+
+numpy==1.26.4
+pandas==2.2.3
+streamlit==1.45.1
+scikit-learn==1.6.1

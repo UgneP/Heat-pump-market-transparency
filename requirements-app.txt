@@ -1,5 +1,7 @@
-# Optional Streamlit demo app dependencies.
-# Keep separate from the notebook environment if Streamlit causes conflicts.
+# Minimal dependencies for the public Streamlit demo app.
+# The research/scraping environment is intentionally kept separate.
 
+numpy==1.26.4
+pandas==2.2.3
 streamlit==1.45.1
--r requirements.txt
+scikit-learn==1.6.1
