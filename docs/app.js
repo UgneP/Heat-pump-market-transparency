@@ -41,6 +41,18 @@ function setInputLimits(id, limits) {
   input.placeholder = `${limits[0]}-${limits[1]}`;
 }
 
+function setRangeLimits(minId, maxId, limits, step) {
+  const minInput = document.getElementById(minId);
+  const maxInput = document.getElementById(maxId);
+  [minInput, maxInput].forEach((input) => {
+    input.min = limits[0];
+    input.max = limits[1];
+    input.step = step;
+  });
+  minInput.value = limits[0];
+  maxInput.value = limits[1];
+}
+
 function metricCard(label, value) {
   return `<div class="metric-card"><div class="metric-label">${label}</div><div class="metric-value">${value}</div></div>`;
 }
@@ -217,6 +229,28 @@ function filteredRows() {
   });
 }
 
+function syncRange(minId, maxId, labelId, formatter) {
+  const minInput = document.getElementById(minId);
+  const maxInput = document.getElementById(maxId);
+  let min = Number(minInput.value);
+  let max = Number(maxInput.value);
+  if (min > max) {
+    if (document.activeElement === minInput) {
+      max = min;
+      maxInput.value = max;
+    } else {
+      min = max;
+      minInput.value = min;
+    }
+  }
+  document.getElementById(labelId).textContent = `${formatter(min)} - ${formatter(max)}`;
+}
+
+function syncDashboardRanges() {
+  syncRange("price-min-filter", "price-max-filter", "price-range-label", formatEur);
+  syncRange("power-min-filter", "power-max-filter", "power-range-label", (value) => `${value.toFixed(1)} kW`);
+}
+
 function renderDashboard() {
   const rows = filteredRows().sort((a, b) => {
     const av = a[state.sortKey];
@@ -270,10 +304,19 @@ function setupDashboard() {
 
   const prices = state.rows.map((row) => row.Price).filter((value) => typeof value === "number");
   const powers = state.rows.map((row) => row["Rated Power low T [kW]"]).filter((value) => typeof value === "number");
-  document.getElementById("price-min-filter").placeholder = Math.floor(Math.min(...prices));
-  document.getElementById("price-max-filter").placeholder = Math.ceil(Math.max(...prices));
-  document.getElementById("power-min-filter").placeholder = Math.floor(Math.min(...powers));
-  document.getElementById("power-max-filter").placeholder = Math.ceil(Math.max(...powers));
+  const priceStep = 250;
+  const powerStep = 0.5;
+  const priceLimits = [
+    Math.floor(Math.min(...prices) / priceStep) * priceStep,
+    Math.ceil(Math.max(...prices) / priceStep) * priceStep,
+  ];
+  const powerLimits = [
+    Math.floor(Math.min(...powers) / powerStep) * powerStep,
+    Math.ceil(Math.max(...powers) / powerStep) * powerStep,
+  ];
+  setRangeLimits("price-min-filter", "price-max-filter", priceLimits, priceStep);
+  setRangeLimits("power-min-filter", "power-max-filter", powerLimits, powerStep);
+  syncDashboardRanges();
 
   [
     "table-search",
@@ -285,7 +328,10 @@ function setupDashboard() {
     "power-min-filter",
     "power-max-filter",
   ].forEach((id) => {
-    document.getElementById(id).addEventListener("input", renderDashboard);
+    document.getElementById(id).addEventListener("input", () => {
+      syncDashboardRanges();
+      renderDashboard();
+    });
   });
 
   document.querySelectorAll("th[data-sort]").forEach((heading) => {

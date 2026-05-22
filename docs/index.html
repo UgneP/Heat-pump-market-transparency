@@ -79,22 +79,22 @@
           <select id="manufacturer-filter"></select>
           <select id="configuration-filter"></select>
           <select id="refrigerant-filter"></select>
-          <label class="compact-filter">
-            Price min
-            <input id="price-min-filter" type="number" step="250">
-          </label>
-          <label class="compact-filter">
-            Price max
-            <input id="price-max-filter" type="number" step="250">
-          </label>
-          <label class="compact-filter">
-            Power min
-            <input id="power-min-filter" type="number" step="0.5">
-          </label>
-          <label class="compact-filter">
-            Power max
-            <input id="power-max-filter" type="number" step="0.5">
-          </label>
+          <div class="range-filter">
+            <div class="range-filter__label">
+              <span>Price range</span>
+              <strong id="price-range-label"></strong>
+            </div>
+            <input id="price-min-filter" type="range" step="250">
+            <input id="price-max-filter" type="range" step="250">
+          </div>
+          <div class="range-filter">
+            <div class="range-filter__label">
+              <span>Power range</span>
+              <strong id="power-range-label"></strong>
+            </div>
+            <input id="power-min-filter" type="range" step="0.5">
+            <input id="power-max-filter" type="range" step="0.5">
+          </div>
         </div>
 
         <div id="dashboard-metrics" class="metric-grid"></div>
