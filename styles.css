@@ -120,10 +120,6 @@ label {
   margin-bottom: 14px;
 }
 
-.compact-filter {
-  margin-bottom: 0;
-}
-
 input,
 select {
   width: 100%;
@@ -134,6 +130,33 @@ select {
   font: inherit;
   min-height: 40px;
   padding: 8px 10px;
+}
+
+input[type="range"] {
+  min-height: 28px;
+  padding: 0;
+}
+
+.range-filter {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.range-filter__label {
+  align-items: baseline;
+  color: var(--muted);
+  display: flex;
+  font-size: 0.9rem;
+  gap: 10px;
+  justify-content: space-between;
+}
+
+.range-filter__label strong {
+  color: var(--ink);
+  font-size: 0.85rem;
+  font-weight: 650;
+  white-space: nowrap;
 }
 
 .primary {
