@@ -4,12 +4,14 @@
     <img src="https://img.shields.io/badge/CCDS-Project%20template-328F97?logo=cookiecutter" />
 </a>
 
-Heat Pump Pricescraper is a data analysis project focused on collecting, processing, and analyzing heat pump market pricing and product characteristics. The repository provides tools for web scraping, manufacturer matching, data modeling, and includes a demo app for interactive price transparency using Streamlit.
+This repository contains the code and data pipeline developed for the paper “Increasing market transparency of residential air-to-water heat pumps in Europe by clustering the appliances” presented at the 15th IEA Heat Pump Conference 2026.
+
+The project combines automated web scraping, product matching, and machine learning to analyze residential heat pump prices and technical characteristics across the European market. It includes reproducible workflows for data collection, preprocessing, clustering, and price modeling, as well as an interactive demo for heat pump price evaluation hosted via GitHub Pages. The repository aims to improve transparency and comparability in the European heat pump market through open and reproducible data analysis.
 
 
-## Streamlit price transparency demo
+## Price transparency demo
 
-The repository includes a lightweight Streamlit app in `app.py`. It lets users enter a heat pump offer price and key technical characteristics used by the price model. The app predicts an expected product/configuration price with the `RandomForest_200t` model setup from the analysis notebook and applies a broad +/-20% reasonableness band.
+The repository includes a short demo. It lets users enter a heat pump offer price and key technical characteristics used by the price model. The app predicts an expected product/configuration price with the `RandomForest_200t` model setup from the analysis notebook and applies a broad +/-20% reasonableness band.
 
 Run locally:
 
