@@ -76,8 +76,14 @@
 
         <div class="filters">
           <input id="table-search" type="search" placeholder="Search manufacturer, model, title, refrigerant, or website">
-          <select id="manufacturer-filter"></select>
-          <select id="configuration-filter"></select>
+          <details class="multi-select" id="manufacturer-filter">
+            <summary>All manufacturers</summary>
+            <div class="multi-select__menu" id="manufacturer-options"></div>
+          </details>
+          <details class="multi-select" id="configuration-filter">
+            <summary>All configurations</summary>
+            <div class="multi-select__menu" id="configuration-options"></div>
+          </details>
           <select id="refrigerant-filter"></select>
           <div class="range-filter">
             <div class="range-filter__label">

@@ -41,6 +41,52 @@ function setInputLimits(id, limits) {
   input.placeholder = `${limits[0]}-${limits[1]}`;
 }
 
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;");
+}
+
+function selectedMultiValues(id) {
+  return [...document.querySelectorAll(`#${id} input[type="checkbox"]:checked`)].map((input) => input.value);
+}
+
+function renderMultiSelect(id, optionsId, values, allLabel) {
+  const details = document.getElementById(id);
+  const menu = document.getElementById(optionsId);
+  const summary = details.querySelector("summary");
+  menu.innerHTML = values.map((value) => `
+    <label>
+      <input type="checkbox" value="${escapeHtml(value)}">
+      <span>${escapeHtml(value)}</span>
+    </label>
+  `).join("");
+  const updateLabel = () => {
+    const selected = selectedMultiValues(id);
+    if (!selected.length) {
+      summary.textContent = allLabel;
+    } else if (selected.length === 1) {
+      summary.textContent = selected[0];
+    } else {
+      summary.textContent = `${selected.length} selected`;
+    }
+  };
+  menu.addEventListener("change", () => {
+    updateLabel();
+    renderDashboard();
+  });
+  details.addEventListener("toggle", () => {
+    if (details.open) {
+      document.querySelectorAll(".multi-select").forEach((other) => {
+        if (other !== details) other.removeAttribute("open");
+      });
+    }
+  });
+  updateLabel();
+}
+
 function setRangeLimits(minId, maxId, limits, step) {
   const minInput = document.getElementById(minId);
   const maxInput = document.getElementById(maxId);
@@ -202,8 +248,8 @@ function uniqueRows(key) {
 
 function filteredRows() {
   const query = document.getElementById("table-search").value.toLowerCase();
-  const manufacturer = document.getElementById("manufacturer-filter").value;
-  const configuration = document.getElementById("configuration-filter").value;
+  const manufacturers = selectedMultiValues("manufacturer-filter");
+  const configurations = selectedMultiValues("configuration-filter");
   const refrigerant = document.getElementById("refrigerant-filter").value;
   const priceMin = numberValue("price-min-filter");
   const priceMax = numberValue("price-max-filter");
@@ -211,8 +257,8 @@ function filteredRows() {
   const powerMax = numberValue("power-max-filter");
 
   return state.rows.filter((row) => {
-    if (manufacturer !== "All manufacturers" && row["Manufacturer display"] !== manufacturer) return false;
-    if (configuration !== "All configurations" && row.Configuration !== configuration) return false;
+    if (manufacturers.length && !manufacturers.includes(row["Manufacturer display"])) return false;
+    if (configurations.length && !configurations.includes(row.Configuration)) return false;
     if (refrigerant !== "All refrigerants" && row.Refrigerant !== refrigerant) return false;
     if (priceMin !== null && row.Price < priceMin) return false;
     if (priceMax !== null && row.Price > priceMax) return false;
@@ -244,6 +290,13 @@ function syncRange(minId, maxId, labelId, formatter) {
     }
   }
   document.getElementById(labelId).textContent = `${formatter(min)} - ${formatter(max)}`;
+  const minLimit = Number(minInput.min);
+  const maxLimit = Number(minInput.max);
+  const span = Math.max(maxLimit - minLimit, 1);
+  const start = ((min - minLimit) / span) * 100;
+  const end = ((max - minLimit) / span) * 100;
+  minInput.closest(".range-stack").style.setProperty("--range-start", `${start}%`);
+  minInput.closest(".range-stack").style.setProperty("--range-end", `${end}%`);
 }
 
 function syncDashboardRanges() {
@@ -290,13 +343,8 @@ function renderDashboard() {
 }
 
 function setupDashboard() {
-  const manufacturer = document.getElementById("manufacturer-filter");
-  manufacturer.append(new Option("All manufacturers", "All manufacturers"));
-  uniqueRows("Manufacturer display").forEach((value) => manufacturer.append(new Option(value, value)));
-
-  const configuration = document.getElementById("configuration-filter");
-  configuration.append(new Option("All configurations", "All configurations"));
-  uniqueRows("Configuration").forEach((value) => configuration.append(new Option(value, value)));
+  renderMultiSelect("manufacturer-filter", "manufacturer-options", uniqueRows("Manufacturer display"), "All manufacturers");
+  renderMultiSelect("configuration-filter", "configuration-options", uniqueRows("Configuration"), "All configurations");
 
   const refrigerant = document.getElementById("refrigerant-filter");
   refrigerant.append(new Option("All refrigerants", "All refrigerants"));
@@ -320,8 +368,6 @@ function setupDashboard() {
 
   [
     "table-search",
-    "manufacturer-filter",
-    "configuration-filter",
     "refrigerant-filter",
     "price-min-filter",
     "price-max-filter",
