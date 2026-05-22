@@ -10,132 +10,125 @@ Analysis based on performance and pricing characteristics
 DETAILED MARKET SEGMENT ANALYSIS
 -----------------------------------
 
-1. LOW-TEMPERATURE
-Market Share: 15.8% (110 products)
-Value Share: 17.2% of total market value
-Average Price: 9,690 EUR
+1. NON-EU-MONOBLOCK
+Market Share: 23.1% (161 products)
+Value Share: 23.1% of total market value
+Average Price: 8,894 EUR
 Key Performance Indicators:
-  - Average SCOP: 4.77
-  - Average Noise: 56.8 dBA
-  - Average Power: 8.6 kW
-  - Average Max Temperature: 35°C
-  - Price range: 3,829 - 17,499 EUR
+  - Average SCOP: 4.85
+  - Average Noise: 56.2 dBA
+  - Average Power: 9.3 kW
+  - Average Max Temperature: 56°C
+  - Price range: 2,725 - 17,499 EUR
 Leading Manufacturers:
-  -  DAIKIN Europe N.V.: 102 products (92.7%)
-  -  WOLF GmbH: 6 products (5.5%)
-  -  Johnson Controls-Hitachi AirConditioning Spain: 2 products (1.8%)
+  -  DAIKIN Europe N.V.: 44 products (27.3%)
+  -  LG Electronics Inc.: 41 products (25.5%)
+  -  Samsung Electronics Air Conditioner Europe B.V.: 31 products (19.3%)
 Leading Refrigerants:
-  - R32: 94 products (85.5%)
-  - R290: 16 products (14.5%)
+  - R32: 94 products (58.4%)
+  - R290: 67 products (41.6%)
 Leading Configurations:
-  - split - warm-water tank: 53 products (48.2%)
-  - monoblock - warm-water tank: 37 products (33.6%)
-  - monoblock - none: 13 products (11.8%)
+  - 0.0 - warm-water tank: 72 products (44.7%)
+  - 0.0 - none: 63 products (39.1%)
+  - 0.0 - hydraulic module: 26 products (16.1%)
 
 ----------------------------------------
 
-2. RETROFIT-QUIET
-Market Share: 11.6% (81 products)
-Value Share: 12.3% of total market value
-Average Price: 9,399 EUR
+2. NON-EU-SPLIT
+Market Share: 36.2% (252 products)
+Value Share: 32.3% of total market value
+Average Price: 7,930 EUR
 Key Performance Indicators:
-  - Average SCOP: 4.56
-  - Average Noise: 43.4 dBA
-  - Average Power: 5.5 kW
-  - Average Max Temperature: 69°C
-  - Price range: 4,379 - 12,999 EUR
+  - Average SCOP: 4.66
+  - Average Noise: 58.4 dBA
+  - Average Power: 8.0 kW
+  - Average Max Temperature: 54°C
+  - Price range: 3,726 - 12,599 EUR
 Leading Manufacturers:
-  -  Bosch Thermotechnik GmbH (Buderus): 36 products (44.4%)
-  -  Bosch Thermotechnik GmbH: 27 products (33.3%)
-  -  Vaillant GmbH: 8 products (9.9%)
+  -  Mitsubishi Electric Air Conditioning Systems Europe LTD: 112 products (44.4%)
+  -  DAIKIN Europe N.V.: 58 products (23.0%)
+  -  Panasonic Marketing Europe GmbH: 26 products (10.3%)
 Leading Refrigerants:
-  - R290: 71 products (87.7%)
-  - R32: 10 products (12.3%)
+  - R32: 252 products (100.0%)
 Leading Configurations:
-  - monoblock - hydraulic module: 46 products (56.8%)
-  - monoblock - warm-water tank: 23 products (28.4%)
-  - split - warm-water tank: 8 products (9.9%)
+  - 1.0 - warm-water tank: 168 products (66.7%)
+  - 1.0 - hydraulic module: 84 products (33.3%)
 
 ----------------------------------------
 
-3. MID-RANGE-STANDARD
-Market Share: 23.9% (166 products)
-Value Share: 21.0% of total market value
-Average Price: 7,822 EUR
+3. EU-MONOBLOCK-RETROFIT
+Market Share: 21.4% (149 products)
+Value Share: 26.1% of total market value
+Average Price: 10,851 EUR
 Key Performance Indicators:
-  - Average SCOP: 4.52
-  - Average Noise: 60.2 dBA
-  - Average Power: 9.7 kW
-  - Average Max Temperature: 62°C
-  - Price range: 2,725 - 14,697 EUR
+  - Average SCOP: 4.70
+  - Average Noise: 52.5 dBA
+  - Average Power: 9.6 kW
+  - Average Max Temperature: 66°C
+  - Price range: 3,655 - 16,599 EUR
 Leading Manufacturers:
-  -  Mitsubishi Electric Air Conditioning Systems Europe LTD: 53 products (31.9%)
-  -  LG Electronics Inc.: 27 products (16.3%)
-  -  TOSHIBA AIR CONDITIONING: 19 products (11.4%)
+  -  Viessmann Climate Solutions SE: 42 products (28.2%)
+  -  Bosch Thermotechnik GmbH: 30 products (20.1%)
+  -  Bosch Thermotechnik GmbH (Buderus): 24 products (16.1%)
 Leading Refrigerants:
-  - R32: 149 products (89.8%)
-  - R290: 17 products (10.2%)
+  - R290: 120 products (80.5%)
+  - R32: 29 products (19.5%)
 Leading Configurations:
-  - split - hydraulic module: 51 products (30.7%)
-  - split - warm-water tank: 47 products (28.3%)
-  - monoblock - none: 32 products (19.3%)
+  - 0.0 - hydraulic module: 82 products (55.0%)
+  - 0.0 - warm-water tank: 53 products (35.6%)
+  - 0.0 - none: 14 products (9.4%)
 
 ----------------------------------------
 
-4. RETROFIT-PREMIUM
-Market Share: 17.7% (123 products)
-Value Share: 23.4% of total market value
-Average Price: 11,768 EUR
+4. EU-SPLIT
+Market Share: 10.2% (71 products)
+Value Share: 8.6% of total market value
+Average Price: 7,529 EUR
 Key Performance Indicators:
-  - Average SCOP: 4.90
-  - Average Noise: 50.5 dBA
-  - Average Power: 10.9 kW
-  - Average Max Temperature: 71°C
-  - Price range: 4,855 - 16,599 EUR
-Leading Manufacturers:
-  -  Viessmann Climate Solutions SE: 38 products (30.9%)
-  -  Bosch Thermotechnik GmbH (Buderus): 24 products (19.5%)
-  -  Bosch Thermotechnik GmbH: 18 products (14.6%)
-Leading Refrigerants:
-  - R290: 113 products (91.9%)
-  - R32: 10 products (8.1%)
-Leading Configurations:
-  - monoblock - hydraulic module: 63 products (51.2%)
-  - monoblock - warm-water tank: 46 products (37.4%)
-  - monoblock - none: 14 products (11.4%)
-
-----------------------------------------
-
-5. BUDGET-COMPACT
-Market Share: 31.0% (216 products)
-Value Share: 26.2% of total market value
-Average Price: 7,500 EUR
-Key Performance Indicators:
-  - Average SCOP: 4.81
-  - Average Noise: 55.9 dBA
+  - Average SCOP: 4.84
+  - Average Noise: 54.2 dBA
   - Average Power: 6.5 kW
   - Average Max Temperature: 60°C
-  - Price range: 2,759 - 15,637 EUR
+  - Price range: 4,379 - 12,388 EUR
 Leading Manufacturers:
-  -  Mitsubishi Electric Air Conditioning Systems Europe LTD: 68 products (31.5%)
-  -  Panasonic Marketing Europe GmbH: 36 products (16.7%)
-  -  Viessmann Climate Solutions SE: 29 products (13.4%)
+  -  Vaillant GmbH: 30 products (42.3%)
+  -  Viessmann Climate Solutions SE: 29 products (40.8%)
+  -  Bosch Thermotechnik GmbH (Buderus): 12 products (16.9%)
 Leading Refrigerants:
-  - R32: 183 products (84.7%)
-  - R290: 33 products (15.3%)
+  - R32: 71 products (100.0%)
 Leading Configurations:
-  - split - warm-water tank: 93 products (43.1%)
-  - split - hydraulic module: 64 products (29.6%)
-  - monoblock - warm-water tank: 23 products (10.6%)
+  - 1.0 - hydraulic module: 38 products (53.5%)
+  - 1.0 - warm-water tank: 33 products (46.5%)
+
+----------------------------------------
+
+5. EU-MONOBLOCK-RETROFIT-QUIET
+Market Share: 9.1% (63 products)
+Value Share: 9.9% of total market value
+Average Price: 9,707 EUR
+Key Performance Indicators:
+  - Average SCOP: 4.56
+  - Average Noise: 41.3 dBA
+  - Average Power: 5.7 kW
+  - Average Max Temperature: 71°C
+  - Price range: 6,187 - 12,999 EUR
+Leading Manufacturers:
+  -  Bosch Thermotechnik GmbH (Buderus): 36 products (57.1%)
+  -  Bosch Thermotechnik GmbH: 27 products (42.9%)
+Leading Refrigerants:
+  - R290: 63 products (100.0%)
+Leading Configurations:
+  - 0.0 - hydraulic module: 42 products (66.7%)
+  - 0.0 - warm-water tank: 21 products (33.3%)
 
 ----------------------------------------
 
 STRATEGIC MARKET INSIGHTS
 ---------------------------
 Priority Market Segments (by volume):
-1. Budget-Compact: 31.0% market share
-2. Mid-Range-Standard: 23.9% market share
-3. Retrofit-Premium: 17.7% market share
+1. non-EU-Split: 36.2% market share
+2. non-EU-Monoblock: 23.1% market share
+3. EU-Monoblock-Retrofit: 21.4% market share
 
 Price Tier Analysis:
 Budget tier (Q1): ≤ 6,979 EUR

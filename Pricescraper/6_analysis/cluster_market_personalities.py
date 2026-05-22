@@ -755,7 +755,7 @@ def create_marketing_analysis_report(df_clustered, cluster_names, figures_dir):
     
     report_path = figures_dir / "marketing_analysis_report.txt"
     
-    with open(report_path, 'w') as f:
+    with open(report_path, 'w', encoding='utf-8') as f:
         f.write("HEAT PUMP MARKET PERSONALITY ANALYSIS\n")
         f.write("="*60 + "\n\n")
         

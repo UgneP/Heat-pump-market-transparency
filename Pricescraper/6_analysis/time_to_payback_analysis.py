@@ -230,7 +230,7 @@ def create_payback_plot(result_df, figures_dir):
                 box_data = [scenario_data[scenario_data['Configuration'] == config]['Payback_Years'].dropna() 
                            for config in valid_configs]
                 
-                bp = axes[i].boxplot(box_data, tick_labels=valid_configs, patch_artist=True)
+                bp = axes[i].boxplot(box_data, labels=valid_configs, patch_artist=True)
                 
                 # Apply colors
                 for patch, color in zip(bp['boxes'], valid_colors):
@@ -254,7 +254,8 @@ def create_payback_plot(result_df, figures_dir):
             axes[i].set_ylabel('Payback Time (Years)', fontsize=12, fontweight='bold')
             axes[i].set_xlabel('Configuration', fontsize=12, fontweight='bold')
             axes[i].tick_params(axis='x', rotation=45)
-            axes[i].set_xticklabels(valid_configs, rotation=45, ha='right')
+            if valid_configs:
+                axes[i].set_xticklabels(valid_configs, rotation=45, ha='right')
             axes[i].grid(True, alpha=0.3, axis='y')
             
             # Set y-axis limits consistently across all plots
