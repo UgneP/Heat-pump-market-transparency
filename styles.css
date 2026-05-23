@@ -456,6 +456,27 @@ th {
   z-index: 1;
 }
 
+.help-link {
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--muted);
+  display: inline-flex;
+  font-size: 0.72rem;
+  font-weight: 700;
+  height: 18px;
+  justify-content: center;
+  margin-left: 5px;
+  text-decoration: none;
+  width: 18px;
+}
+
+.help-link:hover {
+  border-color: var(--gray);
+  color: var(--ink);
+}
+
 td a {
   color: var(--green);
 }
