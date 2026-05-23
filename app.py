@@ -604,8 +604,8 @@ def render_dashboard(df: pd.DataFrame) -> None:
     column_labels = {
         "Manufacturer display": "Manufacturer",
         "Model/Type": "Matched online name",
-        "Titel": "HPLIB name",
-        "Model": "HPLIB model",
+        "Titel": "Keymark name",
+        "Model": "Keymark model",
         "Rated Power low T [kW]": "Power kW",
     }
 
@@ -728,8 +728,14 @@ def render_dashboard(df: pd.DataFrame) -> None:
         column_config={
             "Manufacturer display": "Manufacturer",
             "Model/Type": "Matched online name",
-            "Titel": "HPLIB name",
-            "Model": "HPLIB model",
+            "Titel": st.column_config.TextColumn(
+                "Keymark name",
+                help="Heat pump database - Keymark: https://keymark.eu/en/products/heatpumps/certified-products",
+            ),
+            "Model": st.column_config.TextColumn(
+                "Keymark model",
+                help="Heat pump database - Keymark: https://keymark.eu/en/products/heatpumps/certified-products",
+            ),
             "Price": st.column_config.NumberColumn("Price", format="EUR %.0f"),
             "Rated Power low T [kW]": st.column_config.NumberColumn("Power kW", format="%.1f"),
             "SCOP": st.column_config.NumberColumn("SCOP", format="%.2f"),
