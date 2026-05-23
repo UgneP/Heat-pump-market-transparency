@@ -384,8 +384,8 @@ def prediction_range(model: Pipeline, training_data: pd.DataFrame, user_inputs: 
     scenarios = scenarios.drop_duplicates().reset_index(drop=True)
     predictions = model.predict(scenarios)
     central_price = float(np.median(predictions))
-    low = float(np.min(predictions) * (1 - EXPECTED_PRICE_BAND))
-    high = float(np.max(predictions) * (1 + EXPECTED_PRICE_BAND))
+    low = float(central_price * (1 - EXPECTED_PRICE_BAND))
+    high = float(central_price * (1 + EXPECTED_PRICE_BAND))
     return low, high, central_price, missing_fields
 
 
@@ -404,7 +404,7 @@ def render_expected_price_result(score: dict[str, object], user_price: float, mi
     note = score_message(score)
     if missing_fields:
         missing_text = ", ".join(missing_fields)
-        note = f"{note} Range is wider because these inputs were not specified: {missing_text}."
+        note = f"{note} Missing inputs were handled by using the median model prediction across compatible scenarios: {missing_text}."
     st.markdown(
         f"""
         <div class='score-panel'>
@@ -443,10 +443,9 @@ def render_offer_checker(df: pd.DataFrame) -> None:
             with form_cols[0]:
                 price = st.number_input(
                     "Offer price",
-                    min_value=100.0,
-                    max_value=100000.0,
+                    min_value=0.0,
                     value=12000.0,
-                    step=250.0,
+                    step=1.0,
                 )
                 power_kw = st.number_input(
                     "Rated power (kW)",
