@@ -590,7 +590,9 @@ def render_dashboard(df: pd.DataFrame) -> None:
 
     display_columns = [
         "Manufacturer display",
+        "Model/Type",
         "Titel",
+        "Model",
         "Price",
         "Rated Power low T [kW]",
         "SCOP",
@@ -601,7 +603,9 @@ def render_dashboard(df: pd.DataFrame) -> None:
     ]
     column_labels = {
         "Manufacturer display": "Manufacturer",
-        "Titel": "Product title",
+        "Model/Type": "Matched online name",
+        "Titel": "HPLIB name",
+        "Model": "HPLIB model",
         "Rated Power low T [kW]": "Power kW",
     }
 
@@ -723,7 +727,9 @@ def render_dashboard(df: pd.DataFrame) -> None:
         hide_index=True,
         column_config={
             "Manufacturer display": "Manufacturer",
-            "Titel": "Product title",
+            "Model/Type": "Matched online name",
+            "Titel": "HPLIB name",
+            "Model": "HPLIB model",
             "Price": st.column_config.NumberColumn("Price", format="EUR %.0f"),
             "Rated Power low T [kW]": st.column_config.NumberColumn("Power kW", format="%.1f"),
             "SCOP": st.column_config.NumberColumn("SCOP", format="%.2f"),

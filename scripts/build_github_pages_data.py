@@ -78,7 +78,9 @@ def main():
 
     table_columns = [
         "Manufacturer display",
+        "Model/Type",
         "Titel",
+        "Model",
         "Price",
         "Rated Power low T [kW]",
         "SCOP",

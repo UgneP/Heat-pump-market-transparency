@@ -304,7 +304,9 @@ function filteredRows() {
     if (!query) return true;
     return [
       row["Manufacturer display"],
+      row["Model/Type"],
       row.Titel,
+      row.Model,
       row.Configuration,
       row.Refrigerant,
       row.Website,
@@ -368,7 +370,9 @@ function renderDashboard() {
   document.querySelector("#offers-table tbody").innerHTML = rows.slice(0, 300).map((row) => `
     <tr>
       <td>${row["Manufacturer display"] || ""}</td>
+      <td>${row["Model/Type"] || ""}</td>
       <td>${row.Titel || ""}</td>
+      <td>${row.Model || ""}</td>
       <td>${formatEur(row.Price || 0)}</td>
       <td>${row["Rated Power low T [kW]"] ?? ""}</td>
       <td>${typeof row.SCOP === "number" ? row.SCOP.toFixed(2) : ""}</td>
