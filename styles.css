@@ -369,7 +369,7 @@ input[type="range"]::-moz-range-thumb {
 }
 
 .price-status__segment--low {
-  background: #6f7772;
+  background: #7b7f7c;
 }
 
 .price-status__segment--typical {
