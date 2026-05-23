@@ -349,23 +349,23 @@ input[type="range"]::-moz-range-thumb {
 .price-status {
   align-items: center;
   display: flex;
-  gap: 14px;
-  margin: 0.4rem 0 1.1rem;
+  gap: 18px;
+  margin: 0.55rem 0 1.2rem;
 }
 
 .price-status__scale {
   align-items: end;
   display: flex;
-  gap: 4px;
-  height: 22px;
+  gap: 5px;
+  height: 30px;
   position: relative;
 }
 
 .price-status__segment {
-  border-radius: 3px;
+  border-radius: 4px;
   display: block;
-  height: 6px;
-  width: 20px;
+  height: 8px;
+  width: 28px;
 }
 
 .price-status__segment--low {
@@ -381,9 +381,9 @@ input[type="range"]::-moz-range-thumb {
 }
 
 .price-status__marker {
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-top: 8px solid #2f6db2;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 10px solid #2f6db2;
   height: 0;
   position: absolute;
   top: 0;
@@ -393,7 +393,8 @@ input[type="range"]::-moz-range-thumb {
 
 .price-status__text {
   color: var(--ink);
-  font-size: 1rem;
+  font-size: 1.12rem;
+  line-height: 1.25;
 }
 
 .price-status__text strong {

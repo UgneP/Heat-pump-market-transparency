@@ -156,21 +156,21 @@ def inject_styles() -> None:
             .price-status {
                 align-items: center;
                 display: flex;
-                gap: 0.8rem;
-                margin: 0.3rem 0 1rem 0;
+                gap: 1rem;
+                margin: 0.45rem 0 1.1rem 0;
             }
             .price-status__scale {
                 align-items: end;
                 display: flex;
-                gap: 4px;
-                height: 22px;
+                gap: 5px;
+                height: 30px;
                 position: relative;
             }
             .price-status__segment {
-                border-radius: 3px;
+                border-radius: 4px;
                 display: block;
-                height: 6px;
-                width: 20px;
+                height: 8px;
+                width: 28px;
             }
             .price-status__segment--low {
                 background: #5f9a68;
@@ -182,9 +182,9 @@ def inject_styles() -> None:
                 background: #cf5a4a;
             }
             .price-status__marker {
-                border-left: 5px solid transparent;
-                border-right: 5px solid transparent;
-                border-top: 8px solid #2f6db2;
+                border-left: 6px solid transparent;
+                border-right: 6px solid transparent;
+                border-top: 10px solid #2f6db2;
                 height: 0;
                 position: absolute;
                 top: 0;
@@ -193,7 +193,8 @@ def inject_styles() -> None:
             }
             .price-status__text {
                 color: var(--ink);
-                font-size: 1rem;
+                font-size: 1.12rem;
+                line-height: 1.25;
             }
             .price-status__text strong {
                 font-weight: 750;
@@ -445,15 +446,15 @@ def render_expected_price_result(score: dict[str, object], user_price: float, mi
         note = f"{note} Missing inputs were handled by using the median model prediction across compatible scenarios: {missing_text}."
     label = str(score["label"])
     if "Cheaper" in label:
-        status_text = "Prices are currently <strong>lower than expected</strong>"
+        status_text = "The offer price is <strong>lower than expected for the entered characteristics</strong>"
         status_class = "low"
         marker_position = 10
     elif "Higher" in label:
-        status_text = "Prices are currently <strong>higher than expected</strong>"
+        status_text = "The offer price is <strong>higher than expected for the entered characteristics</strong>"
         status_class = "high"
         marker_position = 90
     else:
-        status_text = "Prices are currently <strong>typical</strong>"
+        status_text = "The offer price is <strong>typical for the entered characteristics</strong>"
         status_class = "typical"
         marker_position = 50
     st.markdown(
