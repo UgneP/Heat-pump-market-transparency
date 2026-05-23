@@ -183,7 +183,7 @@ function closestPredictions(inputs) {
 function checkPrice(event) {
   if (event) event.preventDefault();
 
-  const price = numberValue("offer-price") || 0;
+  const price = Math.round(numberValue("offer-price") || 0);
   const inputs = {
     power: numberValue("power"),
     storage: numberValue("storage"),
@@ -199,15 +199,13 @@ function checkPrice(event) {
     matches = closestPredictions(inputs);
   }
 
-  let rawLow = Infinity;
-  let rawHigh = -Infinity;
-  matches.forEach((row) => {
-    const prediction = row[7];
-    if (prediction < rawLow) rawLow = prediction;
-    if (prediction > rawHigh) rawHigh = prediction;
-  });
-  const low = rawLow * (1 - state.data.expectedPriceBand);
-  const high = rawHigh * (1 + state.data.expectedPriceBand);
+  const predictions = matches.map((row) => row[7]).sort((a, b) => a - b);
+  const middle = Math.floor(predictions.length / 2);
+  const expectedPrice = predictions.length % 2
+    ? predictions[middle]
+    : (predictions[middle - 1] + predictions[middle]) / 2;
+  const low = expectedPrice * (1 - state.data.expectedPriceBand);
+  const high = expectedPrice * (1 + state.data.expectedPriceBand);
 
   let label = "In expected range";
   let color = "var(--green)";
@@ -236,7 +234,7 @@ function checkPrice(event) {
     })[key]);
 
   const missingNote = missing.length
-    ? ` Range is wider because these inputs were not specified: ${missing.join(", ")}.`
+    ? ` Missing inputs were handled by using the median model prediction across compatible scenarios: ${missing.join(", ")}.`
     : "";
 
   document.getElementById("result").innerHTML = `
