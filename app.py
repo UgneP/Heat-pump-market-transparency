@@ -173,13 +173,13 @@ def inject_styles() -> None:
                 width: 28px;
             }
             .price-status__segment--low {
-                background: #5f9a68;
+                background: #6f7772;
             }
             .price-status__segment--typical {
-                background: #dfbd46;
+                background: #26734d;
             }
             .price-status__segment--high {
-                background: #cf5a4a;
+                background: #a33b35;
             }
             .price-status__marker {
                 border-left: 6px solid transparent;
