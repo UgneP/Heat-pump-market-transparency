@@ -215,7 +215,7 @@ function checkPrice(event) {
   let label = "In expected range";
   let color = "var(--green)";
   let message = "This offer is within the model-based expected range for the entered characteristics.";
-  let statusText = "Prices are currently <strong>typical</strong>";
+  let statusText = "The offer price is <strong>typical for the entered characteristics</strong>";
   let statusClass = "typical";
   let markerPosition = 50;
 
@@ -223,14 +223,14 @@ function checkPrice(event) {
     label = "Cheaper than expected - check details";
     color = "var(--gray)";
     message = "Congratulations on a cheaper price, but check whether everything is included and whether the manufacturer or supplier is reliable.";
-    statusText = "Prices are currently <strong>lower than expected</strong>";
+    statusText = "The offer price is <strong>lower than expected for the entered characteristics</strong>";
     statusClass = "low";
     markerPosition = 10;
   } else if (price > high) {
     label = "Higher than expected";
     color = "var(--red)";
     message = "This offer is above the expected range; check whether extra services, warranty, installation scope, or availability explain the premium.";
-    statusText = "Prices are currently <strong>higher than expected</strong>";
+    statusText = "The offer price is <strong>higher than expected for the entered characteristics</strong>";
     statusClass = "high";
     markerPosition = 90;
   }
