@@ -153,12 +153,50 @@ def inject_styles() -> None:
                 color: var(--muted);
                 font-size: 0.84rem;
             }
-            .range-value {
+            .price-status {
+                align-items: center;
+                display: flex;
+                gap: 0.8rem;
+                margin: 0.3rem 0 1rem 0;
+            }
+            .price-status__scale {
+                align-items: end;
+                display: flex;
+                gap: 4px;
+                height: 22px;
+                position: relative;
+            }
+            .price-status__segment {
+                border-radius: 3px;
+                display: block;
+                height: 6px;
+                width: 20px;
+            }
+            .price-status__segment--low {
+                background: #5f9a68;
+            }
+            .price-status__segment--typical {
+                background: #dfbd46;
+            }
+            .price-status__segment--high {
+                background: #cf5a4a;
+            }
+            .price-status__marker {
+                border-left: 5px solid transparent;
+                border-right: 5px solid transparent;
+                border-top: 8px solid #2f6db2;
+                height: 0;
+                position: absolute;
+                top: 0;
+                transform: translateX(-50%);
+                width: 0;
+            }
+            .price-status__text {
                 color: var(--ink);
-                font-size: clamp(1.8rem, 3vw, 2.8rem);
+                font-size: 1rem;
+            }
+            .price-status__text strong {
                 font-weight: 750;
-                line-height: 1.05;
-                margin: 0.2rem 0 1rem 0;
             }
         </style>
         """,
@@ -405,12 +443,32 @@ def render_expected_price_result(score: dict[str, object], user_price: float, mi
     if missing_fields:
         missing_text = ", ".join(missing_fields)
         note = f"{note} Missing inputs were handled by using the median model prediction across compatible scenarios: {missing_text}."
+    label = str(score["label"])
+    if "Cheaper" in label:
+        status_text = "Prices are currently <strong>lower than expected</strong>"
+        status_class = "low"
+        marker_position = 10
+    elif "Higher" in label:
+        status_text = "Prices are currently <strong>higher than expected</strong>"
+        status_class = "high"
+        marker_position = 90
+    else:
+        status_text = "Prices are currently <strong>typical</strong>"
+        status_class = "typical"
+        marker_position = 50
     st.markdown(
         f"""
         <div class='score-panel'>
             <span class='label-pill' style='background:{score['color']}'>{score['label']}</span>
-            <div class='metric-label'>Expected price range</div>
-            <div class='range-value'>{format_eur(score['low'])} - {format_eur(score['high'])}</div>
+            <div class='price-status price-status--{status_class}'>
+                <div class='price-status__scale' aria-hidden='true'>
+                    <span class='price-status__segment price-status__segment--low'></span>
+                    <span class='price-status__segment price-status__segment--typical'></span>
+                    <span class='price-status__segment price-status__segment--high'></span>
+                    <span class='price-status__marker' style='left:{marker_position}%'></span>
+                </div>
+                <div class='price-status__text'>{status_text}</div>
+            </div>
             <p class='small-note'>Your offer: {format_eur(user_price)}</p>
             <p class='small-note'>{note}</p>
         </div>
@@ -449,21 +507,19 @@ def render_offer_checker(df: pd.DataFrame) -> None:
                 )
                 power_kw = st.number_input(
                     "Rated power (kW)",
-                    min_value=round(numeric_limits["Rated Power medium T [kW]"][0], 1),
-                    max_value=round(numeric_limits["Rated Power medium T [kW]"][1], 1),
+                    min_value=0.0,
                     value=None,
                     step=0.1,
                     placeholder=f"{numeric_limits['Rated Power medium T [kW]'][0]:.1f}-{numeric_limits['Rated Power medium T [kW]'][1]:.1f}",
-                    help="Limited to the observed range in the research dataset.",
+                    help="Observed model-data range is shown as a reference, but the field accepts other values.",
                 )
                 storage_size = st.number_input(
                     "Storage size (L)",
-                    min_value=round(numeric_limits["Storage Size (L)"][0], 0),
-                    max_value=round(numeric_limits["Storage Size (L)"][1], 0),
+                    min_value=0.0,
                     value=None,
-                    step=10.0,
+                    step=1.0,
                     placeholder=f"{numeric_limits['Storage Size (L)'][0]:.0f}-{numeric_limits['Storage Size (L)'][1]:.0f}",
-                    help="Limited to the observed range in the research dataset.",
+                    help="Observed model-data range is shown as a reference, but the field accepts other values.",
                 )
             with form_cols[1]:
                 config_options = ["Not specified"] + option_list(defaults["Config"])
@@ -488,33 +544,32 @@ def render_offer_checker(df: pd.DataFrame) -> None:
             with advanced_cols[0]:
                 sound = st.number_input(
                     "Noise (dBA)",
-                    min_value=round(numeric_limits["SPL outdoor high Power [dBA]"][0], 1),
-                    max_value=round(numeric_limits["SPL outdoor high Power [dBA]"][1], 1),
+                    min_value=0.0,
                     value=None,
-                    step=0.5,
+                    step=1.0,
                     placeholder=f"{numeric_limits['SPL outdoor high Power [dBA]'][0]:.1f}-{numeric_limits['SPL outdoor high Power [dBA]'][1]:.1f}",
-                    help="Limited to the observed range in the research dataset.",
+                    help="Observed model-data range is shown as a reference, but the field accepts other values.",
                 )
             with advanced_cols[1]:
                 standby = st.number_input(
                     "Standby power (W)",
-                    min_value=round(numeric_limits["Poff [W]"][0], 1),
-                    max_value=round(numeric_limits["Poff [W]"][1], 1),
+                    min_value=0.0,
                     value=None,
-                    step=0.5,
+                    step=1.0,
                     placeholder=f"{numeric_limits['Poff [W]'][0]:.1f}-{numeric_limits['Poff [W]'][1]:.1f}",
-                    help="Limited to the observed range in the research dataset.",
+                    help="Observed model-data range is shown as a reference, but the field accepts other values.",
                 )
             submitted = st.form_submit_button("Check price", use_container_width=True)
 
+    price = round(price)
     low, high, expected_price, missing_fields = prediction_range(
         model,
         defaults,
         {
-            "Rated Power medium T [kW]": power_kw,
-            "Storage Size (L)": storage_size,
-            "SPL outdoor high Power [dBA]": sound,
-            "Poff [W]": standby,
+            "Rated Power medium T [kW]": round(power_kw, 1) if power_kw is not None else None,
+            "Storage Size (L)": round(storage_size) if storage_size is not None else None,
+            "SPL outdoor high Power [dBA]": round(sound) if sound is not None else None,
+            "Poff [W]": round(standby) if standby is not None else None,
             "Config": config,
             "Storage": storage,
             "Refrigerant": refrigerant,

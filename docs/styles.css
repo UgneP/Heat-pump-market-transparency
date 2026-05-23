@@ -346,11 +346,58 @@ input[type="range"]::-moz-range-thumb {
   margin-bottom: 0.35rem;
 }
 
-.range-value {
-  font-size: clamp(1.8rem, 3vw, 2.8rem);
-  font-weight: 760;
-  line-height: 1.05;
-  margin-bottom: 0.9rem;
+.price-status {
+  align-items: center;
+  display: flex;
+  gap: 14px;
+  margin: 0.4rem 0 1.1rem;
+}
+
+.price-status__scale {
+  align-items: end;
+  display: flex;
+  gap: 4px;
+  height: 22px;
+  position: relative;
+}
+
+.price-status__segment {
+  border-radius: 3px;
+  display: block;
+  height: 6px;
+  width: 20px;
+}
+
+.price-status__segment--low {
+  background: #5f9a68;
+}
+
+.price-status__segment--typical {
+  background: #dfbd46;
+}
+
+.price-status__segment--high {
+  background: #cf5a4a;
+}
+
+.price-status__marker {
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 8px solid #2f6db2;
+  height: 0;
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+  width: 0;
+}
+
+.price-status__text {
+  color: var(--ink);
+  font-size: 1rem;
+}
+
+.price-status__text strong {
+  font-weight: 750;
 }
 
 .small-note {

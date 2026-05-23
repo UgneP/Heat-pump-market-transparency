@@ -20,6 +20,13 @@ function numberValue(id) {
   return value === "" ? null : Number(value);
 }
 
+function roundedNumberValue(id, digits = 0) {
+  const value = numberValue(id);
+  if (value === null) return null;
+  const factor = 10 ** digits;
+  return Math.round(value * factor) / factor;
+}
+
 function selectValue(id) {
   const value = document.getElementById(id).value;
   return value === "Not specified" ? null : value;
@@ -34,10 +41,8 @@ function setOptions(id, values, includeAny = true) {
   values.forEach((value) => select.append(new Option(value, value)));
 }
 
-function setInputLimits(id, limits) {
+function setInputPlaceholder(id, limits) {
   const input = document.getElementById(id);
-  input.min = limits[0];
-  input.max = limits[1];
   input.placeholder = `${limits[0]}-${limits[1]}`;
 }
 
@@ -185,13 +190,13 @@ function checkPrice(event) {
 
   const price = Math.round(numberValue("offer-price") || 0);
   const inputs = {
-    power: numberValue("power"),
-    storage: numberValue("storage"),
+    power: roundedNumberValue("power", 1),
+    storage: roundedNumberValue("storage", 0),
     config: selectValue("config"),
     tank: selectValue("tank"),
     refrigerant: selectValue("refrigerant"),
-    noise: numberValue("noise"),
-    standby: numberValue("standby"),
+    noise: roundedNumberValue("noise", 0),
+    standby: roundedNumberValue("standby", 0),
   };
 
   let matches = state.data.predictionRows.filter((row) => predictionMatches(row, inputs));
@@ -210,15 +215,24 @@ function checkPrice(event) {
   let label = "In expected range";
   let color = "var(--green)";
   let message = "This offer is within the model-based expected range for the entered characteristics.";
+  let statusText = "Prices are currently <strong>typical</strong>";
+  let statusClass = "typical";
+  let markerPosition = 50;
 
   if (price < low) {
     label = "Cheaper than expected - check details";
     color = "var(--gray)";
     message = "Congratulations on a cheaper price, but check whether everything is included and whether the manufacturer or supplier is reliable.";
+    statusText = "Prices are currently <strong>lower than expected</strong>";
+    statusClass = "low";
+    markerPosition = 10;
   } else if (price > high) {
     label = "Higher than expected";
     color = "var(--red)";
     message = "This offer is above the expected range; check whether extra services, warranty, installation scope, or availability explain the premium.";
+    statusText = "Prices are currently <strong>higher than expected</strong>";
+    statusClass = "high";
+    markerPosition = 90;
   }
 
   const missing = Object.entries(inputs)
@@ -239,8 +253,15 @@ function checkPrice(event) {
 
   document.getElementById("result").innerHTML = `
     <span class="label-pill" style="background:${color}">${label}</span>
-    <div class="metric-label">Expected price range</div>
-    <div class="range-value">${formatEur(low)} - ${formatEur(high)}</div>
+    <div class="price-status price-status--${statusClass}">
+      <div class="price-status__scale" aria-hidden="true">
+        <span class="price-status__segment price-status__segment--low"></span>
+        <span class="price-status__segment price-status__segment--typical"></span>
+        <span class="price-status__segment price-status__segment--high"></span>
+        <span class="price-status__marker" style="left:${markerPosition}%"></span>
+      </div>
+      <div class="price-status__text">${statusText}</div>
+    </div>
     <p class="small-note">Your offer: ${formatEur(price)}</p>
     <p class="small-note">${message}${missingNote}</p>
   `;
@@ -420,10 +441,10 @@ async function init() {
   setOptions("config", state.data.options.config);
   setOptions("tank", state.data.options.tank);
   setOptions("refrigerant", state.data.options.refrigerant);
-  setInputLimits("power", state.data.limits.power);
-  setInputLimits("storage", state.data.limits.storage);
-  setInputLimits("noise", state.data.limits.noise);
-  setInputLimits("standby", state.data.limits.standby);
+  setInputPlaceholder("power", state.data.limits.power);
+  setInputPlaceholder("storage", state.data.limits.storage);
+  setInputPlaceholder("noise", state.data.limits.noise);
+  setInputPlaceholder("standby", state.data.limits.standby);
 
   document.getElementById("model-metrics").innerHTML = [
     metricCard("Holdout R2", state.data.modelMetrics.r2.toFixed(2)),
