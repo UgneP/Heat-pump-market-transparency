@@ -1,8 +1,11 @@
-## Price transparency demo
+# Price transparency demo
 
 https://ugnep.github.io/Heat-pump-market-transparency/
 
-The repository includes a short demo. It lets users enter a heat pump offer price and key technical characteristics used by the price model. The app predicts an expected product/configuration price with the `RandomForest_200t` model setup from the analysis notebook and applies a broad +/-20% reasonableness band.
+The repository includes a short demo. It lets users enter a heat pump offer price and key technical characteristics used by the price model. The app predicts an expected product/configuration price with the randomforest model setup from the analysis notebook and applies a broad +/-20% reasonableness band.
+
+> [!CAUTION]
+> This is a research demo. It benchmarks product/configuration offer prices only and should not be used as a final purchasing recommendation.
 
 # Pricescraper and data analysis
 
