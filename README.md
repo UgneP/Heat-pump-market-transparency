@@ -19,5 +19,6 @@ If you use this repository in your research, please cite:
 Potthoff, U., Morlock, F., & Wortmann, F. (2026).
 Increasing market transparency of residential air-to-water heat pumps in Europe by clustering the appliances.
 15th IEA Heat Pump Conference, pp. 2337–2347.
-
+[View article
+](https://hpc2026.org/fileadmin/mc/energy/Projektwebsiten/15th_IEA_Heat_Pump_Conference/Proceedings/Proceedings.pdf)
 
