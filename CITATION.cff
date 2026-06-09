@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite both the repository and the associated conference paper."
+title: "Heat Pump Market Transparency"
+authors:
+  - family-names: Potthoff
+    given-names: Ugne
+repository-code: https://github.com/UgneP/Heat-pump-market-transparency
+license: MIT
+
+preferred-citation:
+  type: conference-paper
+  title: "Increasing market transparency of residential air-to-water heat pumps in Europe by clustering the appliances"
+  authors:
+    - family-names: Potthoff
+      given-names: Ugne
+    - family-names: Morlock
+      given-names: Felix
+    - family-names: Wortmann
+      given-names: Felix
+  year: 2026
+  conference: "15th IEA Heat Pump Conference"
+  start: 2337
+  end: 2347
+  url: "https://hpc2026.org/fileadmin/mc/energy/Projektwebsiten/15th_IEA_Heat_Pump_Conference/Proceedings/Proceedings.pdf"
